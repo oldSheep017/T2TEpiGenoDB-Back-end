@@ -1,0 +1,29 @@
+{
+  "name": "t2tepigenodb-back-end",
+  "version": "1.0.0",
+  "description": "Node.js",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon ./app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oldSheep017/T2TEpiGenoDB-Back-end.git"
+  },
+  "keywords": [],
+  "author": "young <youngcoding@163.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oldSheep017/T2TEpiGenoDB-Back-end/issues"
+  },
+  "homepage": "https://github.com/oldSheep017/T2TEpiGenoDB-Back-end#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mysql2": "^3.3.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
