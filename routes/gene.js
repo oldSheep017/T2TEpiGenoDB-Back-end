@@ -6,8 +6,11 @@ const sqlBuilder = {
 	gene: (chromosome, start, end) => {
 		return `SELECT * FROM uniq_new_gene_all_info WHERE chr_ID = '${chromosome}' AND start >= '${start}' AND end <= '${end}';`
 	},
-	geneAll: (chromosome, start, end) => {
+	chm13All: (chromosome, start, end) => {
 		return `SELECT * FROM chm13_gene WHERE chr_ID = '${chromosome}' AND start >= '${start}' AND end <= '${end}';`
+	},
+	grch38All: (chromosome, start, end) => {
+		return `SELECT * FROM grch38_gene WHERE chr_ID = '${chromosome}' AND start >= '${start}' AND end <= '${end}';`
 	},
 	histone: (chromosome, start, end) => {
 		return `SELECT * FROM new_histone WHERE chr_ID = '${chromosome}' AND start >= '${start}' AND end <= '${end}';`
@@ -26,19 +29,30 @@ GeneRouter.get('/locus', async (req, res) => {
 	const genes = await sqlConnect(sqlBuilder.gene(chromosome, start, end))
 	const histone = await sqlConnect(sqlBuilder.histone(chromosome, start, end))
 	const variation = await sqlConnect(sqlBuilder.variation(chromosome, start, end))
-	const geneAll = await sqlConnect(sqlBuilder.geneAll(chromosome, start, end))
+	const chm13All = await sqlConnect(sqlBuilder.chm13All(chromosome, start, end))
+	const grch38All = await sqlConnect(sqlBuilder.grch38All(chromosome, start, end))
+	const biotype_chm13 = {}
+	const biotype_grch38 = {}
 
-	const biotype = {}
-	for (let i = 0; i < geneAll.length; i++) {
-		if (biotype[geneAll[i].gene_biotype]) {
-			biotype[geneAll[i].gene_biotype]++
+	for (let i = 0; i < chm13All.length; i++) {
+		if (biotype_chm13[chm13All[i].gene_biotype]) {
+			biotype_chm13[chm13All[i].gene_biotype]++
 		} else {
-			biotype[geneAll[i].gene_biotype] = 1
+			biotype_chm13[chm13All[i].gene_biotype] = 1
 		}
 	}
 
+	for (let i = 0; i < grch38All.length; i++) {
+		if (biotype_grch38[grch38All[i].gene_biotype]) {
+			biotype_grch38[grch38All[i].gene_biotype]++
+		} else {
+			biotype_grch38[grch38All[i].gene_biotype] = 1
+		}
+	}
+
+
 	console.log('请求发送成功')
-	res.json({ genes, histone, variation, biotype })
+	res.json({ genes, histone, variation, biotype_chm13, biotype_grch38 })
 })
 
 module.exports = GeneRouter
