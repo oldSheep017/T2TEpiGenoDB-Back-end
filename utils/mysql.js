@@ -5,9 +5,10 @@ const mysqlConnectionConfig = {
 	user: 'root',
 	password: 'HDwzk@525',
 	database: 'CGGE',
+	
 }
 
-const sqlConnect = function (sql, params) {
+const sqlConnect = function (sql) {
 	return new Promise((resolve, reject) => {
 		const con = mysql.createConnection(mysqlConnectionConfig)
 		con.query(sql, function (err, results, fields) {
